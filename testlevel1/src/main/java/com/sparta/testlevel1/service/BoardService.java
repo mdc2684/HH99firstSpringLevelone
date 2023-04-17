@@ -37,24 +37,25 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
-        if (board.getPassword().equals(boardRequestDto.getPassword())) {
+        if (board.getPassword().equals(boardRequestDto.getPassword())) { //어떻게 ID가 매칭되는거지
             board.update(boardRequestDto);
         }
         return board.getId();
     }
 
     @Transactional
-    public Long deleteBoard(Long id, String password) {
+    public String deleteBoard(Long id, String password) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
         if (board.getPassword().equals(password)) {
             boardRepository.deleteById(id);
+            return "성공적으로 삭제했습니다.";
+
         } else {
-            System.out.println("비밀번호가다릅니다");
+           return "비밀번호가다릅니다";
         }
 
-        return id;
     }
 
     @Transactional

@@ -48,8 +48,7 @@ public class BoardController {
 
     //삭제하기
     @DeleteMapping("/api/board/{id}")
-    public Long deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
-
+    public String deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
 
         return boardService.deleteBoard(id,boardRequestDto.getPassword());
     }
