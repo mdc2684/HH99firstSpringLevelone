@@ -36,16 +36,16 @@ public class BoardService {
     }
 
     @Transactional
-    public String update(Long id, BoardRequestDto boardRequestDto) {
+    public Board update(Long id, BoardRequestDto boardRequestDto) {
         // 수정할 데이터가 존재하는지 확인하는 과정 먼저 필요
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
         if (board.getPassword().equals(boardRequestDto.getPassword())) {
             board.update(boardRequestDto);
-            return "수정완료!";
-        }  else {
-            return "비밀번호가 다릅니다";
+            return board;
+        } else {
+            return board;  // 타입은 Board인데 비밀번호가 다를때 클라에게 메시지를 어떻게 보낼수있을까
         }
     }
 

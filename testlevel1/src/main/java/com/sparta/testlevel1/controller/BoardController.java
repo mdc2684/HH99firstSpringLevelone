@@ -43,7 +43,7 @@ public class BoardController {
 
     //수정하기
     @PutMapping("/api/board/{id}")
-    public String updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
+    public Board updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
         return boardService.update(id, boardRequestDto);
     }
 
