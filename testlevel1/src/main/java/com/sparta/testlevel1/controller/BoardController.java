@@ -34,6 +34,7 @@ public class BoardController {
     public List<Board> getBoard() {
         return boardService.getBoardList();
     }
+
     //// 선택 게시글 조회하기
     @GetMapping("/api/board/{id}")
     public Optional<Board> getBoardone(@PathVariable Long id) {
@@ -42,7 +43,7 @@ public class BoardController {
 
     //수정하기
     @PutMapping("/api/board/{id}")
-    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
+    public String updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
         return boardService.update(id, boardRequestDto);
     }
 
@@ -52,6 +53,4 @@ public class BoardController {
 
         return boardService.deleteBoard(id,boardRequestDto.getPassword());
     }
-
-
 }
