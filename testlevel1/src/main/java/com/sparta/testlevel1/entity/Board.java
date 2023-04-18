@@ -2,6 +2,7 @@ package com.sparta.testlevel1.entity;
 
 
 import com.sparta.testlevel1.dto.BoardRequestDto;
+import com.sparta.testlevel1.dto.BoardResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,5 +38,6 @@ public class Board extends Timestamped {   // 게시판에 대한 정보를 가�
         this.content = boardRequestDto.getContent();
         this.author = boardRequestDto.getAuthor();
         this.password = boardRequestDto.getPassword();
+
     }
 }

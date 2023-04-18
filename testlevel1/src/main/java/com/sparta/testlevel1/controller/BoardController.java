@@ -1,6 +1,8 @@
+// Client <-Dto-> Controller <-Dto-> Service <-Dto-> Repository <-Entity-> DB
 package com.sparta.testlevel1.controller;
 
 import com.sparta.testlevel1.dto.BoardRequestDto;
+import com.sparta.testlevel1.dto.BoardResponseDto;
 import com.sparta.testlevel1.entity.Board;
 import com.sparta.testlevel1.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +45,7 @@ public class BoardController {
 
     //수정하기
     @PutMapping("/api/board/{id}")
-    public Board updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
+    public BoardRequestDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
         return boardService.update(id, boardRequestDto);
     }
 

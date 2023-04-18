@@ -1,6 +1,7 @@
 package com.sparta.testlevel1.service;
 
 import com.sparta.testlevel1.dto.BoardRequestDto;
+import com.sparta.testlevel1.dto.BoardResponseDto;
 import com.sparta.testlevel1.entity.Board;
 import com.sparta.testlevel1.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +37,19 @@ public class BoardService {
     }
 
     @Transactional
-    public Board update(Long id, BoardRequestDto boardRequestDto) {
+    public BoardRequestDto update(Long id, BoardRequestDto boardRequestDto) {
         // 수정할 데이터가 존재하는지 확인하는 과정 먼저 필요
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다")
         );
         if (board.getPassword().equals(boardRequestDto.getPassword())) {
             board.update(boardRequestDto);
-            return board;
+            return boardRequestDto;
         } else {
-            return board;  // 타입은 Board인데 비밀번호가 다를때 클라에게 메시지를 어떻게 보낼수있을까
+
+            return boardRequestDto; // throw 어케?
         }
+
     }
 
     @Transactional
@@ -57,7 +60,6 @@ public class BoardService {
         if (board.getPassword().equals(password)) {
             boardRepository.deleteById(id);
             return "성공적으로 삭제했습니다.";
-
         } else {
             return "비밀번호가다릅니다";
         }
@@ -66,7 +68,6 @@ public class BoardService {
     // 게시글 하나만 조회하기
     @Transactional
     public Optional<Board> getBoardone(Long id) {
-        return boardRepository.findById(id); // (id) -> 클라에서 받아온 id
-
+        return boardRepository.findById(id); // (id) -> 클라에서 받아온 id  + // orelse``` 추가
     }
 }
