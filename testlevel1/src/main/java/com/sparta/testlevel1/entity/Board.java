@@ -1,11 +1,8 @@
 package com.sparta.testlevel1.entity;
 
-
 import com.sparta.testlevel1.dto.BoardRequestDto;
-import com.sparta.testlevel1.dto.BoardResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Getter  // 눈에는 안보이지만 title.getTitle() 같은 각각 메서드를 모두 만들어줌.
@@ -21,23 +18,16 @@ public class Board extends Timestamped {   // 게시판에 대한 정보를 가�
     @Column(nullable = false)
     private String content;
     @Column(nullable = false)
-    private String author;
-    @Column(nullable = false)
-    private String password;
+    private String username;
 
-    public Board(BoardRequestDto boardRequestDto) {
+    public Board(BoardRequestDto boardRequestDto,  String username) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
-        this.author = boardRequestDto.getAuthor();
-        this.password = boardRequestDto.getPassword();
-
+        this.username = username;
     }
 
     public void update(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
-        this.author = boardRequestDto.getAuthor();
-        this.password = boardRequestDto.getPassword();
-
     }
 }
