@@ -39,7 +39,7 @@ public class BoardService {
                 //토큰에서 사용자 정보 가져오기
                 claims = jwtUtil.getUserInfoFromToken(token);
             } else {
-                throw new IllegalArgumentException("Token Error");
+                throw new IllegalArgumentException("Token Error!!!!!! ");
             }
 
             // 토큰에서 가져온 사용자 정보를 사용하여 DB조회
@@ -90,11 +90,14 @@ public class BoardService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다")
             );
 
-
             // 수정할 데이터가 존재하는지 확인하는 과정 먼저 필요
             Board board = boardRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("게시판이 존재하지 않습니다")
             );
+
+            if (!board.getUsername().equals(claims.getSubject())) {
+                throw new IllegalArgumentException("수정 권한이 없습니다");
+            }
 
             board.update(boardRequestDto);
 
@@ -114,7 +117,7 @@ public class BoardService {
         if (token != null) {
             if (jwtUtil.validateToken(token)) {
                 //토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);  // Token으로 user정보 얻고 user정보를 claims에 저장
+                claims = jwtUtil.getUserInfoFromToken(token);  // Token으로 user정보 얻고 user정보를 claims에 저장  ,  claims.getSubject()  :  해당 username
             } else {
                 throw new IllegalArgumentException("Token Error");
             }
@@ -126,8 +129,12 @@ public class BoardService {
             Board board = boardRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("게시판이 존재하지 않습니다")
             );
-            boardRepository.delete(board);
 
+            if (!board.getUsername().equals(claims.getSubject())) {
+                throw new IllegalArgumentException("삭제 권한이 없습니다");
+            }
+
+            boardRepository.delete(board);
         }
     }
 
