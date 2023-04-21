@@ -109,7 +109,7 @@ public class BoardService {
 
     //게시글삭제하기
     @Transactional
-    public void deleteBoard(Long id, BoardRequestDto boardRequestDto, HttpServletRequest request) {
+    public void deleteBoard(Long id, HttpServletRequest request) {
 
         String token = jwtUtil.resolveToken(request); // request 토큰값 찾기
         Claims claims;

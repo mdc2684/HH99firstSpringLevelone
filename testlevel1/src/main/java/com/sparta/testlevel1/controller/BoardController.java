@@ -47,8 +47,8 @@ public class BoardController {
 
     //삭제하기
     @DeleteMapping("/api/board/{id}")
-    public ResponseEntity<MsgResponseDto> deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, HttpServletRequest request) {
-        boardService.deleteBoard(id,boardRequestDto,request);
+    public ResponseEntity<MsgResponseDto> deleteBoard(@PathVariable Long id,  HttpServletRequest request) {
+        boardService.deleteBoard(id,request);
         return ResponseEntity.ok(new MsgResponseDto("삭제완료!", HttpStatus.OK.value()));
     }
 }

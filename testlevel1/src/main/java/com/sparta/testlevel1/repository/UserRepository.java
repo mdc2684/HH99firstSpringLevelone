@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByUsername(String username);  // 왜 옵셔널해야하는지 모르겠음
+
 }
