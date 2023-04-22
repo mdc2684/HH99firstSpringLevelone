@@ -15,10 +15,17 @@ public class Board extends Timestamped {   // 게시판에 대한 정보를 가�
 
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String content;
+
     @Column(nullable = false)
     private String username;
+
+
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User user;
 
     public Board(BoardRequestDto boardRequestDto,  String username) {
         this.title = boardRequestDto.getTitle();
