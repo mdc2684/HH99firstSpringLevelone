@@ -22,15 +22,15 @@ public class Board extends Timestamped {   // 게시판에 대한 정보를 가�
     @Column(nullable = false)
     private String username;
 
-
-    @ManyToOne
-    @JoinColumn(name = "userid")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID")  //name은 외래키의명칭
     private User user;
 
-    public Board(BoardRequestDto boardRequestDto,  String username) {
+    public Board(BoardRequestDto boardRequestDto,  User user) {
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
-        this.username = username;
+       // this.user = user;
+        this.username = user.getUsername();
     }
 
     public void update(BoardRequestDto boardRequestDto) {

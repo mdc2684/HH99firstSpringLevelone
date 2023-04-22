@@ -26,11 +26,8 @@ public class User {
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z]).{8,15}")
     private String password;
 
-
-
-    @OneToMany(mappedBy = "user")
-    List<Board> boards = new ArrayList<>();
-
+    @OneToMany
+    private List<Board> boards;
 
 
     public User(String username, String password) { // 초기화

@@ -2,6 +2,7 @@ package com.sparta.testlevel1.service;
 
 import com.sparta.testlevel1.dto.BoardRequestDto;
 import com.sparta.testlevel1.dto.BoardResponseDto;
+import com.sparta.testlevel1.dto.MsgResponseDto;
 import com.sparta.testlevel1.entity.Board;
 import com.sparta.testlevel1.entity.User;
 import com.sparta.testlevel1.jwt.JwtUtil;
@@ -9,10 +10,13 @@ import com.sparta.testlevel1.repository.BoardRepository;
 import com.sparta.testlevel1.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +53,7 @@ public class BoardService {
             );
 
             // 요청받은 DTO로 DB에 저장할 객체 만들기
-            Board board = boardRepository.save(new Board(boardRequestDto, user.getUsername()));
+            Board board = boardRepository.save(new Board(boardRequestDto, user));
 
             return new BoardResponseDto(board);
         } else {
@@ -110,7 +114,7 @@ public class BoardService {
 
     //게시글삭제하기
     @Transactional
-    public void deleteBoard(Long id, HttpServletRequest request) {
+    public ResponseEntity<MsgResponseDto> deleteBoard(Long id, HttpServletRequest request) {
 
         String token = jwtUtil.resolveToken(request); // request 토큰값 찾기
         Claims claims;
@@ -124,7 +128,7 @@ public class BoardService {
             }
             // 토큰에서 가져온 사용자 정보를 사용하여 DB조회
             User user = userRepository.findUserByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다")
+                    () -> new NullPointerException("토큰이 없습니다.")
             );
             // 삭제할 데이터가 존재하는지 확인하는 과정 먼저 필요
             Board board = boardRepository.findById(id).orElseThrow(
@@ -136,7 +140,11 @@ public class BoardService {
             }
 
             boardRepository.delete(board);
+            return ResponseEntity.ok(new MsgResponseDto("삭제완료!", HttpStatus.OK.value()));
+       } else {
+            throw new IllegalArgumentException("잘못된 토큰입니다");
         }
+
     }
 
     // 게시글 하나만 조회하기
