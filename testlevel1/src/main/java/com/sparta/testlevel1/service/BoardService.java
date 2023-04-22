@@ -140,6 +140,7 @@ public class BoardService {
             }
 
             boardRepository.delete(board);
+
             return ResponseEntity.ok(new MsgResponseDto("삭제완료!", HttpStatus.OK.value()));
        } else {
             throw new IllegalArgumentException("잘못된 토큰입니다");
